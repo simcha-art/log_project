@@ -1,3 +1,6 @@
+import array
+
+
 def read_log_file(file_name) ->list[list]:
     with open(file_name, "r") as f:
         r = f.readlines()
@@ -34,11 +37,41 @@ def count_requests(data:list[list], source:str)->int:
 
 def dict_ip_requests(data:list[list])->dict:
     ip_requests = {row[1]: count_requests(data, row[1]) for row in data}
-    return IP_requests
+    return ip_requests
 
 def match_port_to_protocols(data: list[list])->dict:
     dict_sorted = {row[3]: row[4] for row in data}
     return dict_sorted
 
-port_and_protocols = match_port_to_protocols(mat)
-print(port_and_protocols)
+def find_suspicions(row):
+    arr_suspicions = []
+
+    time = row[0].split(" ")[1][:2]
+    if 0 <= int(time) <= 5:
+        arr_suspicions.append("NIGHT_ACTIVITY")
+
+    ip_address = row[1]
+    if ip_address[:2] != "10" and ip_address[:7] != "192.168":
+        arr_suspicions.append("EXTERNAL_IP")
+
+    port = row[4]
+    if port in ["22", "23", "3389"]:
+        arr_suspicions.append("SENSITIVE_PORT")\
+
+    size = row[-1]
+    if int(size) > 5000:
+        arr_suspicions.append("LARGE_PACKET")
+
+    return arr_suspicions
+
+def suspicious_ips(data: list[list])->dict:
+    #ip = row[1]
+    #arr_suspicious = find_suspicious(row)
+    dict_sus_ip = {row[1]: find_suspicions(row) for row in data if find_suspicions(row)}
+    return dict_sus_ip
+
+sus_ips = suspicious_ips(mat)
+for k, v in sus_ips.items():
+    print(f"{k} >>> {v}")
+
+
