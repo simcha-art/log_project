@@ -15,6 +15,10 @@ def suspected_ports(data:list[list]):
     suspected = [row for row in mat if row[3] in ("22", "23", "3389")]
     return suspected
 
-ports = suspected_ports(mat)
-for row in ports:
+def suspected_size(data:list[list]):
+    suspected = [row for row in data if int(row[-1]) > 5000]
+    return suspected
+
+sus = suspected_size(mat)
+for row in sus:
     print(row)
