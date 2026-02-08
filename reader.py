@@ -76,7 +76,3 @@ def ips_with_num_of_suspicions(suspicious_ips: dict) -> dict:
     susp_ips = {k: v for k, v in suspicious_ips.items() if len(v) >= 2}
     return susp_ips
 
-ips_to_check = suspicions_of_ips(mat)
-sus_ips = ips_with_num_of_suspicions(ips_to_check)
-for k, v in sus_ips.items():
-    print(f"{k} ---->>>> {v}")
