@@ -40,10 +40,6 @@ def dict_ip_requests(data:list[list])->dict:
     ip_requests = {ip: count_requests(data, ip) for ip in set_ip}
     return ip_requests
 
-count = dict_ip_requests(mat)
-for k, v in count.items():
-    print(f"{k} --->>> {v}")
-
 def match_port_to_protocols(data: list[list])->dict:
     dict_sorted = {row[3]: row[4] for row in data}
     return dict_sorted
@@ -69,11 +65,18 @@ def find_suspicions(row):
 
     return arr_suspicions
 
-def suspicious_ips(data: list[list])->dict:
+def suspicions_of_ips(data: list[list])->dict:
     #ip = row[1]
     #arr_suspicious = find_suspicious(row)
     dict_sus_ip = {row[1]: find_suspicions(row) for row in data if find_suspicions(row)}
     return dict_sus_ip
 
 
+def ips_with_num_of_suspicions(suspicious_ips: dict) -> dict:
+    susp_ips = {k: v for k, v in suspicious_ips.items() if len(v) >= 2}
+    return susp_ips
 
+ips_to_check = suspicions_of_ips(mat)
+sus_ips = ips_with_num_of_suspicions(ips_to_check)
+for k, v in sus_ips.items():
+    print(f"{k} ---->>>> {v}")
