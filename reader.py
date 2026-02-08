@@ -23,3 +23,19 @@ def labeled_by_size(data: list[list]):
     new_data = data.copy()
     labeled = [(row, "LARGE" if int(row[-1]) > 5000 else "NORMAL") for row in new_data]
     return labeled
+
+#==============================================================================================================
+#------------------------------------------stage2 ------- dict_comprehension-----------------------------------
+#==============================================================================================================
+
+def count_requests(data:list[list], source:str)->int:
+    arr = [True for row in data if row[1] == source]
+    return len(arr)
+
+def dict_IP_requests(data:list[list])->dict:
+    IP_requests = {row[1]: count_requests(data, row[1]) for row in data}
+    return IP_requests
+
+ip_req = dict_IP_requests(mat)
+for key, val in ip_req.items():
+    print(f"[{key} --> {val}]")
