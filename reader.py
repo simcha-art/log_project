@@ -32,12 +32,17 @@ def labeled_by_size(data: list[list]):
 #==============================================================================================================
 
 def count_requests(data:list[list], source:str)->int:
-    arr = [True for row in data if row[1] == source]
-    return len(arr)
+    count = sum(True for row in data if row[1] == source)
+    return count
 
 def dict_ip_requests(data:list[list])->dict:
-    ip_requests = {row[1]: count_requests(data, row[1]) for row in data}
+    set_ip = set(row[1] for row in data)
+    ip_requests = {ip: count_requests(data, ip) for ip in set_ip}
     return ip_requests
+
+count = dict_ip_requests(mat)
+for k, v in count.items():
+    print(f"{k} --->>> {v}")
 
 def match_port_to_protocols(data: list[list])->dict:
     dict_sorted = {row[3]: row[4] for row in data}
@@ -70,8 +75,5 @@ def suspicious_ips(data: list[list])->dict:
     dict_sus_ip = {row[1]: find_suspicions(row) for row in data if find_suspicions(row)}
     return dict_sus_ip
 
-sus_ips = suspicious_ips(mat)
-for k, v in sus_ips.items():
-    print(f"{k} >>> {v}")
 
 
