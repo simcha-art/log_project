@@ -19,6 +19,11 @@ def suspected_size(data:list[list]):
     suspected = [row for row in data if int(row[-1]) > 5000]
     return suspected
 
-sus = suspected_size(mat)
-for row in sus:
+def labeled_by_size(data: list[list]):
+    new_data = data.copy()
+    labeled = [(row, "LARGE" if int(row[-1]) > 5000 else "NORMAL") for row in new_data]
+    return labeled
+
+labeled = labeled_by_size(mat)
+for row in labeled:
     print(row)
