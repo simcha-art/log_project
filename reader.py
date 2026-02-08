@@ -23,7 +23,3 @@ def labeled_by_size(data: list[list]):
     new_data = data.copy()
     labeled = [(row, "LARGE" if int(row[-1]) > 5000 else "NORMAL") for row in new_data]
     return labeled
-
-labeled = labeled_by_size(mat)
-for row in labeled:
-    print(row)
