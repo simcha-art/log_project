@@ -32,10 +32,13 @@ def count_requests(data:list[list], source:str)->int:
     arr = [True for row in data if row[1] == source]
     return len(arr)
 
-def dict_IP_requests(data:list[list])->dict:
-    IP_requests = {row[1]: count_requests(data, row[1]) for row in data}
+def dict_ip_requests(data:list[list])->dict:
+    ip_requests = {row[1]: count_requests(data, row[1]) for row in data}
     return IP_requests
 
-ip_req = dict_IP_requests(mat)
-for key, val in ip_req.items():
-    print(f"[{key} --> {val}]")
+def match_port_to_protocols(data: list[list])->dict:
+    dict_sorted = {row[3]: row[4] for row in data}
+    return dict_sorted
+
+port_and_protocols = match_port_to_protocols(mat)
+print(port_and_protocols)
