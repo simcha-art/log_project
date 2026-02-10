@@ -89,7 +89,10 @@ def get_times(data: list[list])->list[int]:
 def compress_bytes_to_kb(data:list[list]) -> list:
     return list(map(lambda size: round(int(size) / 1024,  2), (row[-1] for row in data)))
 
+def find_sensitive_port(data:list[list])->list:
+    return list(filter(lambda row: row[3] in ["22", "23", "3398"], data))
 
-for size in compress_bytes_to_kb(mat):
-    print(size)
 
+
+for row in find_sensitive_port(mat):
+    print(row)
