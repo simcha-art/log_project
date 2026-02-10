@@ -86,4 +86,10 @@ def get_times(data: list[list])->list[int]:
     """מקבל את כל הדאטה, רשימה של כל שורות הלוג, כל שורה כרשימה. ומחזיר רק את מספר השעה שההודעה נשלחה"""
     return list(map(lambda row: int(row[0].split(" ")[1][:2]), data))
 
-print(get_times(mat))
+def compress_bytes_to_kb(data:list[list]) -> list:
+    return list(map(lambda size: round(int(size) / 1024,  2), (row[-1] for row in data)))
+
+
+for size in compress_bytes_to_kb(mat):
+    print(size)
+
