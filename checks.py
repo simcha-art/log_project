@@ -51,7 +51,7 @@ def find_suspicions(row):
 
     port = row[4]
     if port in ["22", "23", "3389"]:
-        arr_suspicions.append("SENSITIVE_PORT")\
+        arr_suspicions.append("SENSITIVE_PORT")
 
     size = row[-1]
     if int(size) > 5000:
@@ -59,14 +59,24 @@ def find_suspicions(row):
 
     return arr_suspicions
 
-def suspicions_of_ips(data: list[list])->dict:
-    #ip = row[1]
-    #arr_suspicious = find_suspicious(row)
-    dict_sus_ip = {row[1]: find_suspicions(row) for row in data if find_suspicions(row)}
-    return dict_sus_ip
+def suspicions_of_ips(data: list[list]) -> dict:
+    dict_sus_ips = {}
+    for row in data:
+        ip = row[1]
+        suspicions = find_suspicions(row)
+        if suspicions:
+            if ip not in dict_sus_ips:
+                dict_sus_ips[ip] = suspicions
+            elif suspicions != dict_sus_ips[ip]:
+                dict_sus_ips[ip] = list(set(dict_sus_ips[ip] + suspicions))
+    return dict_sus_ips
 
 
 def ips_with_num_of_suspicions(suspicious_ips: dict) -> dict:
     susp_ips = {k: v for k, v in suspicious_ips.items() if len(v) >= 2}
     return susp_ips
 
+sus_ip = suspicions_of_ips(mat)
+real_sus_ip = ips_with_num_of_suspicions(sus_ip)
+for k, v in real_sus_ip.items():
+    print(f"{k} ---->>>> {v}")
