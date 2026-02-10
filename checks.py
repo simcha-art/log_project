@@ -92,7 +92,8 @@ def compress_bytes_to_kb(data:list[list]) -> list:
 def find_sensitive_port(data:list[list])->list:
     return list(filter(lambda row: row[3] in ["22", "23", "3398"], data))
 
+def find_night_activity(data:list[list])->list:
+    return list(filter(lambda row: 0 <= int(row[0].split(" ")[1][:2]) < 6, data))
 
-
-for row in find_sensitive_port(mat):
+for row in find_night_activity(mat):
     print(row)
