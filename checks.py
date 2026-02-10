@@ -76,7 +76,14 @@ def ips_with_num_of_suspicions(suspicious_ips: dict) -> dict:
     susp_ips = {k: v for k, v in suspicious_ips.items() if len(v) >= 2}
     return susp_ips
 
-sus_ip = suspicions_of_ips(mat)
-real_sus_ip = ips_with_num_of_suspicions(sus_ip)
-for k, v in real_sus_ip.items():
-    print(f"{k} ---->>>> {v}")
+
+#==============================================================================================================
+#--------------------------------------stage3 ------- lambda, filter, map--------------------------------------
+#==============================================================================================================
+
+
+def get_times(data: list[list])->list[int]:
+    """מקבל את כל הדאטה, רשימה של כל שורות הלוג, כל שורה כרשימה. ומחזיר רק את מספר השעה שההודעה נשלחה"""
+    return list(map(lambda row: int(row[0].split(" ")[1][:2]), data))
+
+print(get_times(mat))
