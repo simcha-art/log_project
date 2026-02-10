@@ -95,5 +95,21 @@ def find_sensitive_port(data:list[list])->list:
 def find_night_activity(data:list[list])->list:
     return list(filter(lambda row: 0 <= int(row[0].split(" ")[1][:2]) < 6, data))
 
-for row in find_night_activity(mat):
-    print(row)
+# # ------------------------------------------------------------
+# # לשאלה 5
+# # ------------------------------------------------------------
+
+suspicion_checks = {
+    "EXTERNAL_IP": lambda row: row[1][:2] != "10" and row[1][:7] != "192.168",
+    "SENSITIVE_PORT": lambda row: row[3] in ["22", "23", "3389"],
+    "LARGE_PACKET": lambda row: int(row[-1]) > 5000,
+    "NIGHT_ACTIVITY": lambda row:  0 <= int(row[0].split(" ")[1][:2]) < 6
+}
+
+##6
+
+def check_suspicious_row(row, dict_suspicions:dict):
+    arr =  list(filter(lambda k: dict_suspicions[k](row), dict_suspicions))
+    return arr
+
+print(check_suspicious_row(mat[100], suspicion_checks))
