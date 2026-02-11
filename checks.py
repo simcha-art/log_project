@@ -2,7 +2,7 @@ from reader import *
 
 
 mat = read_log_file("network_traffic.log")
-print(mat[0])
+print(next(mat))
 
 def outer_ips(data:list[list]):
     arr_ip = [row[1] for row in data if row[1][:2] != "10" and row[1][:7] != "192.168" ]
@@ -116,10 +116,13 @@ def check_suspicious_row(row, dict_suspicions:dict):
 ##7
 
 def check_suspicions_log(log:list[list]):
-    arr = list(filter(lambda row: not check_suspicious_row(row, suspicion_checks) is None, log))
-    return arr
+    for line in log:
+        if check_suspicious_row(line, suspicion_checks):
+            yield  line
 
 ##======================================================================================================================
 ##----------------------------------------------stage4---------yield----------------------------------------------------
 ##======================================================================================================================
 
+for line in check_suspicions_log(mat):
+    print(line)
