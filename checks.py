@@ -116,7 +116,7 @@ def check_suspicious_row(row, dict_suspicions:dict):
 ##7
 
 def check_suspicions_log(log:list[list]):
-    arr = list(filter(lambda tup: len(tup[1]) >= 1, map(lambda line: (line[1], check_suspicious_row(line, suspicion_checks)), log)))
+    arr = list(filter(lambda row: not check_suspicious_row(row, suspicion_checks) is None, log))
     return arr
 
 for line in check_suspicions_log(mat):
