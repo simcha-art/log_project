@@ -131,5 +131,9 @@ def tuple_line_suspicions(log):
 
 def count_susp_lines(log):
     return sum(1 for line in check_suspicions_log(log))
-
-print(count_susp_lines(mat))
+##5
+lines = read_log_file("network_traffic.log")
+suspicious = check_suspicions_log(lines)
+detailed = tuple_line_suspicions(suspicious)
+count = count_susp_lines(suspicious)
+print(f"Total suspicous: {count}")
