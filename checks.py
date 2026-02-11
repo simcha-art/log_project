@@ -129,5 +129,7 @@ def tuple_line_suspicions(log):
         tup = (line, check_suspicious_row(line, suspicion_checks))
         yield tup
 
-for line in tuple_line_suspicions(mat):
-    print(line)
+def count_susp_lines(log):
+    return sum(1 for line in check_suspicions_log(log))
+
+print(count_susp_lines(mat))
