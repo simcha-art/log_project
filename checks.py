@@ -124,5 +124,10 @@ def check_suspicions_log(log:list[list]):
 ##----------------------------------------------stage4---------yield----------------------------------------------------
 ##======================================================================================================================
 
-for line in check_suspicions_log(mat):
+def tuple_line_suspicions(log):
+    for line in check_suspicions_log(log):
+        tup = (line, check_suspicious_row(line, suspicion_checks))
+        yield tup
+
+for line in tuple_line_suspicions(mat):
     print(line)
