@@ -4,6 +4,24 @@ from reader import *
 mat = read_log_file("network_traffic.log")
 print(next(mat))
 
+num_read_lines = 0
+num_susp_lines = 0
+
+time_sus = 0
+port_sus = 0
+ip_sus = 0
+size_sus = 0
+
+def update_count(new_line:bool= False, is_sus_line:bool= False, is_time_sus:bool= False, is_port_sus:bool= False, is_ip_sus:bool= False, is_size_sus:bool = False):
+    global num_read_lines, num_susp_lines, time_sus, port_sus, ip_sus, size_sus
+    num_read_lines += 1 if new_line else 0
+    num_susp_lines += 1 if is_sus_line else 0
+    ip_sus += 1 if is_ip_sus else 0
+    port_sus += 1 if is_port_sus else 0
+    size_sus += 1 if is_size_sus else 0
+    time_sus += 1 if is_time_sus else 0
+
+
 def outer_ips(data:list[list]):
     arr_ip = [row[1] for row in data if row[1][:2] != "10" and row[1][:7] != "192.168" ]
     return arr_ip
@@ -117,7 +135,9 @@ def check_suspicious_row(row, dict_suspicions:dict):
 
 def check_suspicions_log(log:list[list]):
     for line in log:
+        update_count(True, False)
         if check_suspicious_row(line, suspicion_checks):
+            update_count(False, True)
             yield  line
 
 ##======================================================================================================================
@@ -126,7 +146,8 @@ def check_suspicions_log(log:list[list]):
 
 def tuple_line_suspicions(log):
     for line in check_suspicions_log(log):
-        tup = (line, check_suspicious_row(line, suspicion_checks))
+        ip = line[1]
+        tup = (ip, check_suspicious_row(line, suspicion_checks))
         yield tup
 
 def count_susp_lines(log):
@@ -137,3 +158,4 @@ def count_susp_lines(log):
 # detailed = tuple_line_suspicions(suspicious)
 # count = count_susp_lines(suspicious)
 # print(f"Total suspicous: {count}")
+
