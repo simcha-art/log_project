@@ -47,4 +47,10 @@ def generate_report(suspicious_dict:dict):
 
 
 
-print(generate_report(analyzer.analyze_log("network_traffic.log")))
+report1 = generate_report(analyzer.analyze_log("network_traffic.log"))
+
+def save_report(report, file_path):
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(report)
+
+save_report(report1, "report.txt")
